@@ -1,8 +1,31 @@
 import type { NextPage } from 'next'
 import List from '../ui/components/List/List'
 import Title from '../ui/components/Title/Title'
+import { 
+  Dialog, 
+  TextField, 
+  Grid, 
+  DialogActions, 
+  Button, 
+  Snackbar} from '@mui/material'
+  import { useIndex } from '../data/hooks/pages/useIndex'
+
 
 const Home: NextPage = () => {
+
+  const {
+    listaPets,
+    petSelecionado,
+    setPetSelecionado,
+    email,
+    setEmail,
+    valor,
+    setValor,
+    mensagem,
+    setMensagem,
+    adotar
+  } = useIndex();
+
   return (
     <div>
       <Title title="" subtitle={
@@ -12,21 +35,59 @@ const Home: NextPage = () => {
       </span>
     } />
       <List 
-        pets={[
-          {
-          id: 1,
-          nome: 'Bidu',
-          historia: 'Xablau ticaracatica auhsudhasud',
-          foto: 'https://super.abril.com.br/wp-content/uploads/2018/05/filhotes-de-cachorro-alcanc3a7am-o-c3a1pice-de-fofura-com-8-semanas1.png'
-          },
-          {
-            id: 2,
-            nome: 'Otto',
-            historia: 'Meu pirraia lindo',
-            foto: 'https://static1.patasdacasa.com.br/articles/8/10/38/@/4864-o-cachorro-inteligente-mostra-essa-carac-articles_media_mobile-1.jpg'
-            }
-        ]}
+        pets={listaPets}
+        onSelect={(pet) => setPetSelecionado(pet)}
       />
+
+      <Dialog 
+        open={petSelecionado !== null}
+        fullWidth
+        PaperProps={{ sx: { padding: 5 }}}
+        onClose={() => setPetSelecionado(null)}
+        >
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField 
+            label={'E-mail'}
+            type={'email'}
+            fullWidth
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField 
+            label={'Quantia por mês'}
+            type={'number'}
+            fullWidth
+            value={valor}
+            onChange={(evt) => setValor(evt.target.value)}
+            />
+          </Grid> 
+        </Grid>
+        <DialogActions sx={{mt: 5}}>
+          <Button 
+            color={'secondary'}
+            onClick = {() => setPetSelecionado(null)}
+          >
+            Cancelar
+          </Button>
+          <Button 
+            variant={'contained'}
+            onClick={() => adotar()}
+            >
+            Confirmar Adoção
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={mensagem.length > 0}
+        message={mensagem}
+        autoHideDuration={2500}
+        onClose={() => setMensagem('')}
+      />
+
     </div>
   )
 }
