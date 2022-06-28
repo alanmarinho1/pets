@@ -1,3 +1,7 @@
+# Parte Front-end do projeto Pets com React e Next.JS.
+
+Curso da Treinaweb de Fullstack.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
